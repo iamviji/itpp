@@ -23,4 +23,4 @@ script:
   - mkdir build-gcov && cd build-gcov && cmake .. -DCMAKE_CXX_FLAGS="-O0 -g -fprofile-arcs -ftest-coverage" -DCMAKE_EXE_LINKER_FLAGS="-fprofile-arcs -ftest-coverage"  -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE=ON -DGTEST_DIR=/usr/src/gtest -DHTML_DOCS=off && cmake --build . --target itpp && cmake --build . --target itpp_gtests && ./gtests/itpp_gtests && cd ..
 
 after_success:
-  - coveralls --build-root build-gcov --exclude tests --exclude-pattern "^CMake.*" --gcov-options '\-lp'
+  - coveralls --build-root build-gcov --exclude tests --exclude-pattern ".*CMake.*" --gcov-options '\-lp'
