@@ -15,5 +15,4 @@ addons:
       - libgtest-dev
       - cmake
       - cmake-data
-script: mkdir -p build && cd build && cmake .. -DCMAKE_CXX_FLAGS=""  -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON -DGTEST_DIR=/usr/src/gtest -DHTML_DOCS=off && cmake --build . --target itpp && cmake --build . --target itpp_gtests
-
+script: mkdir -p build && cd build && cmake .. -DCMAKE_CXX_FLAGS=""  -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON -DGTEST_DIR=/usr/src/gtest -DHTML_DOCS=off && cmake --build . --target itpp && cmake --build . --target itpp_gtests && ./gtests/itpp_gtests
