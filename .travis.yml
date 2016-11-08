@@ -15,4 +15,13 @@ addons:
       - libgtest-dev
       - cmake
       - cmake-data
-script: mkdir -p build && cd build && cmake .. -DCMAKE_CXX_FLAGS=""  -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON -DGTEST_DIR=/usr/src/gtest -DHTML_DOCS=off && cmake --build . --target itpp && cmake --build . --target itpp_gtests && ./gtests/itpp_gtests
+
+before_install:
+  - pip install --user cpp-coveralls
+
+script:
+  - mkdir -p build && cd build && cmake .. -DCMAKE_CXX_FLAGS=""  -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON -DGTEST_DIR=/usr/src/gtest -DHTML_DOCS=off && cmake --build . --target itpp && cmake --build . --target itpp_gtests && ./gtests/itpp_gtests
+  - mkdir -p build-gcov && cd build-gcov && cmake .. -DCMAKE_CXX_FLAGS="-O0 -g -fprofile-arcs -ftest-coverage" -DCMAKE_EXE_LINKER_FLAGS="-fprofile-arcs -ftest-coverage"  -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE=ON -DGTEST_DIR=/usr/src/gtest -DHTML_DOCS=off && cmake --build . --target itpp && cmake --build . --target itpp_gtests && ./gtests/itpp_gtests
+
+after_success:
+  - cd build-gcov && coveralls --exclude lib --exclude tests --gcov-options '\-lp'
